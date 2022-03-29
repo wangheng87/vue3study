@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue3.Demo</title>
+    <script type="text/javascript" src="./vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{ count }}</p>
+    </div>
+    <script>
+        // const app=Vue.createApp({
+        //     data() {
+        //         return { count: 4}
+        //     },
+        //     methods: {
+        //         increment() {
+        //             this.count++
+        //         }
+        //     }
+        // })
+        // var vm=app.mount("#app");
+        // console.info(vm.count)
+        // vm.increment();
+        const FSM = {
+            off: {
+                handleButtonPressed() {
+                    console.log('弱光')
+                    this.curState = FSM.weakLight
+                }
+            },
+            weakLight: {
+                handleButtonPressed() {
+                    console.log('强光')
+                    this.curState = FSM.strongLight
+                }
+            },
+            strongLight: {
+                handleButtonPressed() {
+                    console.log('关灯')
+                    this.curState = FSM.off
+                }
+            }
+        }
+        const app=Vue.createApp({
+            data() {
+                return {
+                    curState: FSM.off
+                }
+            },
+            methods: {
+                handleButtonPressed() {
+                    this.curState.handleButtonPressed.call(this)
+                }
+            }
+        })
+        var vm=app.mount("#app");
+        console.log(vm.curState)
+        // setInterval(function(){
+        //     for (item in  FSM ){
+        //         vm.handleButtonPressed(item.key)
+        //     }
+        // },1000)
+    </script>
+</body>
+</html>
